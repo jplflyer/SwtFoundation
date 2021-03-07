@@ -2,7 +2,6 @@ package com.showpage.swtfoundation;
 
 import java.util.*;
 
-import org.apache.log4j.*;
 import org.eclipse.swt.*;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.layout.*;
@@ -13,8 +12,6 @@ import org.eclipse.swt.widgets.*;
  * entire screen.
  */
 public class MainFrame {
-	private static Logger log = Logger.getLogger(MainFrame.class);
-	
 	public static final int	ALIGN_TOP_TO_TOP			= 0x01;		// Top alignment
 	public static final int	ALIGN_BOTTOM_TO_BOTTOM	= 0x01;		// Bottom alignment
 	public static final int	ALIGN_TOP_TO_BOTTOM		= 0x04;		// Top to bottom (building a window from top edge)
@@ -57,7 +54,6 @@ public class MainFrame {
 		shell.setLayout(new FormLayout());
 		
 		if (wantStatusTF) {
-			log.debug("Creating statusTF.");
 			statusTF = new Text(shell, SWT.READ_ONLY);
     		FormData fd = new FormData();
     		fd.left = new FormAttachment(0, 2);
@@ -265,7 +261,6 @@ public class MainFrame {
 	 */
 	public void setStatus(String text) {
 		if (statusTF != null) {
-			log.debug("Status: " + text);
     		setTextField(statusTF, text);
 		}
 	}

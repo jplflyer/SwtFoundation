@@ -3,24 +3,21 @@ package com.showpage.swtfoundation;
 import java.lang.reflect.*;
 import java.util.*;
 
-import org.apache.log4j.*;
 import org.eclipse.swt.*;
 
 /**
  * This class is used by TableView to display one column of data.
  */
 public class TableViewColumn implements Comparator<Object> {
-	public static Logger log = Logger.getLogger(TableViewColumn.class);
-	
 	/** The header text for this column. */
 	public String	rowHeader;
-	
+
 	/** Use during reflection to grab the data from our containing objects. */
 	public String	name;
-	
+
 	/** This is the getter retrieved using reflection. */
 	public Method	getter;
-	
+
 	/**
 	 * This is confusing.  When retrieving values for display, we might
 	 * be calling a getter directly on the object that represents a row.
@@ -35,7 +32,7 @@ public class TableViewColumn implements Comparator<Object> {
 	public Comparator<String>	sortComparator;
 	public boolean	sortAscending = true;
 	public int		alignment;
-	
+
 	/**
 	 * Constructor.  TheClass should be the class that actually contains
 	 * the getter referenced by name.  In this case, we assume that theClass
@@ -44,18 +41,18 @@ public class TableViewColumn implements Comparator<Object> {
 	public TableViewColumn(String _header, String _name, Class<?> theClass) {
 		rowHeader = _header;
 		name = _name;
-		
+
 		lookForGetter(theClass, null);
 		alignment = SWT.LEFT;
 	}
-	
+
 	/**
 	 * Constructor.  In this case, the getter is probably on the window that
 	 * contains the table.  The window object is _object.  The window's class
 	 * is getterClass.  And the data objects we're storing are of type
 	 * getterArgClass.  We assume that the window has a getter with the given
 	 * method name and expects a single argument of type getterArgClass.
-	 * 
+	 *
 	 * Of course, the getter could exist on any generic object.  The point
 	 * is that it's NOT on the object representing the row, but on some
 	 * sort of container or controller.
@@ -64,11 +61,11 @@ public class TableViewColumn implements Comparator<Object> {
 		rowHeader = _header;
 		name = _name;
 		getterObject = _object;
-		
+
 		lookForGetter(getterClass, getterArgClass);
 		alignment = SWT.LEFT;
 	}
-	
+
 	/**
 	 * Retrieve the value for this column from this object.
 	 * Note that we might be getting the value directly from the
@@ -101,15 +98,16 @@ public class TableViewColumn implements Comparator<Object> {
 			{
 				retVal = formatterMethod.invoke(formatterObject, retVal);
 			}
-			catch (Exception e)
+			catch (Exception ex)
 			{
-				log.warn(e);
+				System.err.printf("Exception: %s", ex.getMessage());
+				ex.printStackTrace();
 			}
 		}
-		
+
 		return retVal;
 	}
-	
+
 	/**
 	 * Try to look up our getter.  If not found, then grab the field.
 	 */
@@ -125,7 +123,7 @@ public class TableViewColumn implements Comparator<Object> {
 			}
 		}
 	}
-	
+
 	private Method tryMethod(Class<?> getterClass, String methodName, Class<?> getterArgClass) {
 		Method retVal = null;
 		try {
@@ -135,20 +133,20 @@ public class TableViewColumn implements Comparator<Object> {
 		catch (Exception e) {
 			// Do nothing
 		}
-		
+
 		return retVal;
 	}
-	
+
 	private Field tryField(Class<?> theClass, String fieldName) {
 		Field retVal = null;
-		
+
 		try {
 			retVal = theClass.getField(fieldName);
 		}
 		catch (Exception e) {
 			// do nothing.
 		}
-		
+
 		return retVal;
 	}
 
@@ -160,10 +158,10 @@ public class TableViewColumn implements Comparator<Object> {
 		int retVal = 0;
 		Object o1 = getValue(arg1);
 		Object o2 = getValue(arg2);
-		
+
 		Comparable c1 = (Comparable)o1;
 		Comparable c2 = (Comparable)o2;
-		
+
 		if (sortComparator != null)
 		{
 			retVal = sortComparator.compare((String)o1, (String)o2);
@@ -179,17 +177,17 @@ public class TableViewColumn implements Comparator<Object> {
 				}
 				return 1;
 			}
-			
+
 			retVal = c1.compareTo(c2);
 		}
-		
+
 		if (!sortAscending) {
 			retVal = -retVal;
 		}
 		return retVal;
 	}
-	
-	
+
+
 	public int objectToInt(Object obj)
 	{
 		if (obj == null)
@@ -200,7 +198,7 @@ public class TableViewColumn implements Comparator<Object> {
 		{
 			return ((Number)obj).intValue();
 		}
-		
+
 		return 0;
 	}
 }

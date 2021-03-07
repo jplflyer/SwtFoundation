@@ -3,7 +3,6 @@ package com.showpage.swtfoundation;
 import java.lang.reflect.*;
 import java.util.*;
 
-import org.apache.log4j.*;
 import org.eclipse.swt.*;
 import org.eclipse.swt.dnd.*;
 import org.eclipse.swt.events.*;
@@ -16,8 +15,6 @@ import org.eclipse.swt.widgets.*;
  *
  */
 public class TableView implements SelectionListener, DragSourceListener {
-	public static Logger log = Logger.getLogger(TableView.class);
-	
 	public int						style = SWT.BORDER;
 	public Table					table;
 	public DragSource				tableDragSource;
@@ -79,9 +76,10 @@ public class TableView implements SelectionListener, DragSourceListener {
 				selectionCallbackMethod = method;
 			}
 		}
-		catch (Exception e)
+		catch (Exception ex)
 		{
-			log.warn("Exception setting up a callback", e);
+			System.err.printf("Exception: %s", ex.getMessage());
+			ex.printStackTrace();
 		}
 	}
 	
@@ -107,9 +105,10 @@ public class TableView implements SelectionListener, DragSourceListener {
 				singleSelectionCallbackMethod = method;
 			}
 		}
-		catch (Exception e)
+		catch (Exception ex)
 		{
-			log.warn("Exception setting up a callback", e);
+			System.err.printf("Exception: %s", ex.getMessage());
+			ex.printStackTrace();
 		}
 	}
 	
@@ -250,9 +249,10 @@ public class TableView implements SelectionListener, DragSourceListener {
 							Object selectedObject = data.elementAt(selection[index]);
 							selectionCallbackMethod.invoke(selectionCallbackObject, selectedObject);
 						}
-						catch (Exception e)
+						catch (Exception ex)
 						{
-							log.warn("Exception invoking callback", e);
+							System.err.printf("Exception: %s", ex.getMessage());
+							ex.printStackTrace();
 						}
 					}
 				}
@@ -287,9 +287,10 @@ public class TableView implements SelectionListener, DragSourceListener {
 							Object selectedObject = data.elementAt(selection[index]);
 							singleSelectionCallbackMethod.invoke(singleSelectionCallbackObject, selectedObject);
 						}
-						catch (Exception e)
+						catch (Exception ex)
 						{
-							log.warn("Exception invoking callback", e);
+							System.err.printf("Exception: %s", ex.getMessage());
+							ex.printStackTrace();
 						}
 					}
 				}

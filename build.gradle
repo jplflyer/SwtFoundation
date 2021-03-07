@@ -1,0 +1,95 @@
+//======================================================================
+// Setup.
+//======================================================================
+import org.gradle.internal.os.OperatingSystem
+
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+}
+
+project.ext.swtVersion = "3.115.100"
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+version = '1.0'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+//======================================================================
+// These bits are used to help us get the right version of SWT.
+//======================================================================
+switch ( OperatingSystem.current() ) {
+	case OperatingSystem.WINDOWS:
+		project.ext.swtNatives = "org.eclipse.swt.win32.win32.x86_64"
+		sourceSets.main.java {
+			exclude "**/PlatformLinux*.java", "**/PlatformMacOSX*.java"
+		}
+		sourceSets.test.java.srcDirs "test"
+		break
+	case OperatingSystem.LINUX:
+		project.ext.swtNatives = "org.eclipse.swt.gtk.linux.x86_64"
+		sourceSets.main.java {
+			exclude "**/PlatformWin32*.java", "**/PlatformMacOSX*.java"
+		}
+		break
+	case OperatingSystem.MAC_OS:
+		project.ext.swtNatives = "org.eclipse.swt.cocoa.macosx.x86_64"
+		sourceSets.main.java {
+			exclude "**/PlatformWin32*.java", "**/PlatformLinux*.java"
+		}
+		break
+}
+
+configurations.all {
+	resolutionStrategy {
+        dependencySubstitution {
+            // The maven property ${osgi.platform} is not handled by Gradle
+            // so we replace the dependency, using the osgi platform from the project settings
+			def os = System.getProperty("os.name").toLowerCase()
+			if (os.contains("windows")) {
+	            substitute module('org.eclipse.platform:org.eclipse.swt.${osgi.platform}') with module("org.eclipse.platform:org.eclipse.swt.win32.win32.x86_64:3.115.100")
+			}
+			else if (os.contains("linux")) {
+	            substitute module('org.eclipse.platform:org.eclipse.swt.${osgi.platform}') with module("org.eclipse.platform:org.eclipse.swt.gtk.linux.x86_64:3.115.100")
+			}
+			else if (os.contains("mac")) {
+	            substitute module('org.eclipse.platform:org.eclipse.swt.${osgi.platform}') with module("org.eclipse.platform:org.eclipse.swt.cocoa.macosx.x86_64:3.115.100")
+			}
+        }
+    }
+}
+
+//======================================================================
+// And here are the dependencies.
+//======================================================================
+dependencies {
+    // Use JUnit test framework.
+    testImplementation 'junit:junit:4.13'
+
+    // This dependency is exported to consumers, that is to say found on their compile classpath.
+    api 'org.apache.commons:commons-math3:3.6.1'
+
+    // This dependency is used internally, and not exposed to consumers on their own compile classpath.
+    implementation 'com.google.guava:guava:29.0-jre'
+
+    // SWT.
+    implementation "org.eclipse.platform:$swtNatives:$swtVersion"
+}
+
+//======================================================================
+// Publishing
+//======================================================================
+publishing {
+  publications {
+    maven(MavenPublication) {
+      groupId = 'org.showpage'
+      artifactId = 'SwtFoundation'
+      version = version
+
+      from components.java
+    }
+  }
+}

@@ -2,15 +2,12 @@ package com.showpage.swtfoundation;
 
 import java.lang.reflect.*;
 
-import org.apache.log4j.*;
-
 /**
  * Various widgets that need to implement a callback by name
  * can use this to do it.
  */
 public class ReflectionCallback
 {
-	private static Logger	 log = Logger.getLogger(ReflectionCallback.class);
 	private Object	callbackObject;
 	private String	callbackName;
 	private Object	callbackData;
@@ -54,7 +51,8 @@ public class ReflectionCallback
 		}
 		catch (Exception ex)
 		{
-			log.warn("Exception", ex);
+			System.err.printf("Exception: %s", ex.getMessage());
+			ex.printStackTrace();
 		}
 	}
 }
