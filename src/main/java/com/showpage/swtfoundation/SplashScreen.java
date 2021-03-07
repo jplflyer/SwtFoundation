@@ -9,7 +9,7 @@ import org.eclipse.swt.widgets.*;
  * Implement a splash screen.  To use this, implement a subclass that
  * will draw all the bits as needed.  Then you can set waitForBackgroundTasks
  * to true if your main application wants to let us know when to move on.
- * The just call setSplashTime() and display the window.
+ * Then just call setSplashTime() and display the window.
  */
 public class SplashScreen extends MainFrame
 {
@@ -21,6 +21,10 @@ public class SplashScreen extends MainFrame
 	
 	/**
 	 * Set up graphics.
+	 * 
+	 * @param _parent			Generally null.
+	 * @param windowWidth		Splash screen size
+	 * @param windowHeight		Splash screen size
 	 */
 	public void initialize(Shell _parent, int windowWidth, int windowHeight)
 	{
@@ -49,6 +53,8 @@ public class SplashScreen extends MainFrame
 	
 	/**
 	 * Remember the image to splash.
+	 *
+	 * @param fName	File containing any graphics we use.
 	 */
 	public void setImageFileName(String fName)
 	{
@@ -65,6 +71,8 @@ public class SplashScreen extends MainFrame
 	
 	/**
 	 * Display a label in the window.
+	 * 
+	 * @param _labelText Set to text instead of an image.
 	 */
 	public void setLabelText(String _labelText) {
 		labelText = _labelText;
@@ -75,19 +83,26 @@ public class SplashScreen extends MainFrame
 	
 	/**
 	 * Should we synchronize with SWTApplication background startup?
+	 * 
+	 * @param val True/false
 	 */
 	public void setWaitForBackgroundTasks(boolean val)
 	{
 		waitForBackgroundTasks = val;
 	}
 	
+	/**
+	 * @return Will we wait for background tasks startup?
+	 */
 	public boolean waitForBackgroundTasks()
 	{
 		return waitForBackgroundTasks;
 	}
 	
 	/**
-	 * How long do we want to be displayed?
+	 * Set How long do we want to be displayed?
+	 * 
+	 * @param millis		Milliseconds
 	 */
 	public void setSplashTime(int millis)
 	{

@@ -12,6 +12,13 @@ public class ReflectionButton extends Button implements SelectionListener
 	
 	/**
 	 * Constructor.
+	 * 
+	 * @param parent		Container.
+	 * @param style			SWT.NONE (etc)
+	 * @param label			Text to display
+	 * @param cbObject		Callback object.
+	 * @param cbName		Callback method name.
+	 * @param cbData		Any user data to pass.
 	 */
 	public ReflectionButton(Composite parent, int style, String label, Object cbObject, String cbName, Object cbData)
 	{
@@ -27,6 +34,8 @@ public class ReflectionButton extends Button implements SelectionListener
 	
 	/**
 	 * They double-clicked the action.
+	 * 
+	 * @param e		Ignored.
 	 */
 	public void widgetDefaultSelected(SelectionEvent e)
 	{
@@ -34,6 +43,8 @@ public class ReflectionButton extends Button implements SelectionListener
 
 	/**
 	 * They single-clicked.  This is the one we really respond to.
+	 * 
+	 * @param e		Ignored.
 	 */
 	public void widgetSelected(SelectionEvent e)
 	{

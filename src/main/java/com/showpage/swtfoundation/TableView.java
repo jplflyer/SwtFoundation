@@ -28,15 +28,27 @@ public class TableView implements SelectionListener, DragSourceListener {
 	private Object					singleSelectionCallbackObject;
 	private Method					singleSelectionCallbackMethod;
 	
+	/**
+	 * Constructor.
+	 */
 	public TableView() {
 	}
 	
+	/**
+	 * Constructor.
+	 * 
+	 * @param parent		Our parent
+	 * @param _columns		A list of columns.
+	 */
 	public TableView(Composite parent, Vector<TableViewColumn> _columns) {
 		initialize(parent, _columns);
 	}
 	
 	/**
 	 * Initialize the window.
+	 * 
+	 * @param parent		Our parent
+	 * @param _columns		A list of columns.
 	 */
 	public void initialize(Composite parent, Vector<TableViewColumn> _columns) {
 		table = new Table(parent, style);
@@ -56,6 +68,10 @@ public class TableView implements SelectionListener, DragSourceListener {
 	
 	/**
 	 * Set up the callback when they double-click a row.
+	 * 
+	 * @param callbackObject		Object to callback to.
+	 * @param callbackMethodName	Name of the method.
+	 * @param callbackArgClass		User data.
 	 */
 	public void setupSelectionCallback(Object callbackObject, String callbackMethodName, Class<?> callbackArgClass)
 	{
@@ -85,6 +101,10 @@ public class TableView implements SelectionListener, DragSourceListener {
 	
 	/**
 	 * Set up the callback when they single-click a row.
+	 * 
+	 * @param callbackObject		Object to callback to.
+	 * @param callbackMethodName	Name of the method.
+	 * @param callbackArgClass		User data.
 	 */
 	public void setupSingleSelectionCallback(Object callbackObject, String callbackMethodName, Class<?> callbackArgClass)
 	{
@@ -112,6 +132,11 @@ public class TableView implements SelectionListener, DragSourceListener {
 		}
 	}
 	
+	/**
+	 * Allow drag and drop.
+	 * 
+	 * @param transfer	What we're dragging
+	 */
 	public void setupDragAndDrop(Transfer transfer)
 	{
 		tableDragSource = new DragSource(table, DND.DROP_COPY);
@@ -120,6 +145,9 @@ public class TableView implements SelectionListener, DragSourceListener {
 		tableDragSource.addDragListener(this);
 	}
 	
+	/**
+	 * Use after we have data so columns display with good widths.
+	 */
 	public void pack() {
 		TableColumn[] cols = table.getColumns();
 		for (int index = 0; index < cols.length; ++index) {
@@ -130,6 +158,8 @@ public class TableView implements SelectionListener, DragSourceListener {
 	
 	/**
 	 * Add a vector of objects to this window.
+	 * 
+	 * @param _data		The objects.
 	 */
 	public void addData(Collection<?> _data)
 	{
@@ -141,6 +171,8 @@ public class TableView implements SelectionListener, DragSourceListener {
 	
 	/**
 	 * Add the column, unsorted.  We'll sort it later.
+	 * 
+	 * @param obj A single object
 	 */
 	private void addUnsorted(Object obj)
 	{
@@ -154,6 +186,8 @@ public class TableView implements SelectionListener, DragSourceListener {
 	
 	/**
 	 * Add an object to this window.
+	 * 
+	 * @param obj A single object
 	 */
 	public void addObject(Object obj)
 	{
@@ -161,6 +195,11 @@ public class TableView implements SelectionListener, DragSourceListener {
 		sortByColumn(sortColumn, false);
 	}
 	
+	/**
+	 * Remove an object from this window.
+	 * 
+	 * @param obj A single object
+	 */
 	public void removeObject(Object obj)
 	{
 		int index = data.indexOf(obj);
@@ -173,6 +212,9 @@ public class TableView implements SelectionListener, DragSourceListener {
 		}
 	}
 	
+	/**
+	 * Clear the table.
+	 */
 	public void removeAll()
 	{
 		data.removeAllElements();
@@ -182,6 +224,9 @@ public class TableView implements SelectionListener, DragSourceListener {
 	
 	/**
 	 * Set the fields in this TableItem to properly display this object.
+	 * 
+	 * @param ti	TableItem
+	 * @param obj	The object we're displaying
 	 */
 	private void setTableItemForObject(TableItem ti, Object obj) {
 		int index = 0;
@@ -212,6 +257,8 @@ public class TableView implements SelectionListener, DragSourceListener {
 	 * us.  Currently, this is only for setting foreground and background
 	 * colors based on the objects we're displaying, but we could end up
 	 * with action methods and other cool stuff.
+	 * 
+	 * @param user This is probably our container.
 	 */
 	public void setUser(ITableViewUser user) {
 		usingObject = user;
@@ -219,6 +266,8 @@ public class TableView implements SelectionListener, DragSourceListener {
 	
 	/**
 	 * Something has happened to this object.
+	 * 
+	 * @param obj The value changed
 	 */
 	public void objectChanged(Object obj) {
 		int index = data.indexOf(obj);
@@ -230,6 +279,8 @@ public class TableView implements SelectionListener, DragSourceListener {
 
 	/**
 	 * Double-clicked a column.
+	 * 
+	 * @param event We get the widget from this.
 	 */
 	public void widgetDefaultSelected(SelectionEvent event) {
 		Widget widget = event.widget;
@@ -262,6 +313,8 @@ public class TableView implements SelectionListener, DragSourceListener {
 
 	/**
 	 * Something was selected, probably a header column.
+	 * 
+	 * @param event We get the widget from this.
 	 */
 	public void widgetSelected(SelectionEvent event) {
 		Widget widget = event.widget;
@@ -300,6 +353,8 @@ public class TableView implements SelectionListener, DragSourceListener {
 	
 	/**
 	 * Return the selected objects.
+	 * 
+	 * @return List of selected objects.
 	 */
 	public ArrayList<Object> getSelectedObjects() {
 		ArrayList<Object> selected = new ArrayList<Object>();
@@ -316,6 +371,9 @@ public class TableView implements SelectionListener, DragSourceListener {
 	
 	/**
 	 * Sort the data for this column.
+	 * 
+	 * @param tvc	Column to sort on
+	 * @param reverseDirection	True to sort biggest to smallest.
 	 */
 	private void sortByColumn(TableViewColumn tvc, boolean reverseDirection)
 	{
@@ -340,12 +398,16 @@ public class TableView implements SelectionListener, DragSourceListener {
 
 	/**
 	 * Drag and drop has completed.
+	 * 
+	 * @param event ignored
 	 */
 	public void dragFinished(DragSourceEvent event) {
 	}
 
 	/**
 	 * Drag and drop is in progress.
+	 * 
+	 * @param event ignored
 	 */
 	public void dragSetData(DragSourceEvent event) {
 		if (table.getSelectionCount() > 0)
@@ -358,6 +420,8 @@ public class TableView implements SelectionListener, DragSourceListener {
 
 	/**
 	 * Drag and drop has begun.
+	 * 
+	 * @param event We allow it only if we have selected objects to drag.
 	 */
 	public void dragStart(DragSourceEvent event) {
 		if (table.getSelectionCount() > 0)

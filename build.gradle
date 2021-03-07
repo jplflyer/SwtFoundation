@@ -5,13 +5,17 @@ import org.gradle.internal.os.OperatingSystem
 
 plugins {
     id 'java-library'
+    id 'maven'
     id 'maven-publish'
+    id 'signing'
 }
 
 project.ext.swtVersion = "3.115.100"
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
-version = '1.0'
+group = 'org.showpage'
+archivesBaseName ='SwtFoundation'
+version = '1.0.0'
 
 repositories {
     mavenLocal()
@@ -76,20 +80,84 @@ dependencies {
     implementation 'com.google.guava:guava:29.0-jre'
 
     // SWT.
-    implementation "org.eclipse.platform:$swtNatives:$swtVersion"
+    compileOnly "org.eclipse.platform:$swtNatives:$swtVersion"
 }
 
 //======================================================================
 // Publishing
 //======================================================================
+task javadocJar(type: Jar) {
+  classifier = 'javadoc'
+  from javadoc
+}
+
+task sourcesJar(type: Jar) {
+  classifier = 'sources'
+  from sourceSets.main.allSource
+}
+
+artifacts {
+  archives javadocJar, sourcesJar
+}
+
+
+signing {
+  sign configurations.archives
+}
+
 publishing {
   publications {
     maven(MavenPublication) {
       groupId = 'org.showpage'
       artifactId = 'SwtFoundation'
       version = version
-
       from components.java
     }
+  }
+}
+
+uploadArchives {
+  repositories {
+    mavenDeployer {
+
+      beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+      // Destination
+      repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+          authentication(userName: ossrhUsername, password: ossrhPassword)
+      }
+      snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+          authentication(userName: ossrhUsername, password: ossrhPassword)
+      }
+
+      pom.project {
+        name 'SwtFoundation'
+        packaging 'jar'
+        description 'Set of base classes for used in SWT Development in Java.'
+        url 'https://github.com/jplflyer/SwtFoundation'
+
+        scm {
+          connection 'scm:git:git://github.com/jplflyer/SwtFoundation.git'
+                       developerConnection 'scm:git:ssh://github.com/jplflyer/SwtFoundation.git'
+                       url 'http://github.com/jplflyer/SwtFoundation'
+        }
+
+        licenses {
+          license {
+            name 'MIT License'
+            url 'http://www.opensource.org/licenses/mit-license.php'
+          }
+        }
+
+        developers {
+          developer {
+            id 'jplflyer'
+            name 'Joseph Larson'
+            email 'jpl@showpage.org'
+          }
+        }
+      }
+    }
+
   }
 }

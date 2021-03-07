@@ -31,6 +31,8 @@ public class SwtEnvironment implements DisposeListener {
 	
 	/**
 	 * Return the singleton, creating it if needed.
+	 * 
+	 * @return Our singleton.
 	 */
 	public static SwtEnvironment singleton() {
 		if (singleton == null) {
@@ -69,6 +71,8 @@ public class SwtEnvironment implements DisposeListener {
 
 	/**
 	 * Return the display.
+	 * 
+	 * @return The current display, which we might initialize first.
 	 */
 	public Display display() {
 		if (display == null) {
@@ -95,7 +99,10 @@ public class SwtEnvironment implements DisposeListener {
 	}
 	
 	/**
-	 * Register this window for our run() loop.
+	 * Register this window for our run() loop. The run loop will continue to
+	 * run as long as this window exists.
+	 * 
+	 * @param win The window to register.
 	 */
 	public void registerWindow(MainFrame win)
 	{
@@ -108,6 +115,9 @@ public class SwtEnvironment implements DisposeListener {
 	
 	/**
 	 * Return all the registered windows of this type.
+	 * 
+	 * @param windowClass the class we're interested in.
+	 * @return A list.
 	 */
 	public ArrayList<MainFrame> registeredWindowsOfType(Class<?> windowClass)
 	{
@@ -125,7 +135,9 @@ public class SwtEnvironment implements DisposeListener {
 	}
 	
 	/**
-	 * A window has been disposed.
+	 * Callback: A window has been disposed.
+	 * 
+	 * @param e The event, which tells us which widget.
 	 */
 	public void widgetDisposed( DisposeEvent e )
 	{

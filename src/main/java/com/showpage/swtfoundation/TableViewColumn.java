@@ -37,6 +37,10 @@ public class TableViewColumn implements Comparator<Object> {
 	 * Constructor.  TheClass should be the class that actually contains
 	 * the getter referenced by name.  In this case, we assume that theClass
 	 * is the class of the data types the table holds.
+	 * 
+	 * @param _header		Text to display
+	 * @param _name			Method name
+	 * @param theClass		Class of objects we're storing
 	 */
 	public TableViewColumn(String _header, String _name, Class<?> theClass) {
 		rowHeader = _header;
@@ -56,6 +60,12 @@ public class TableViewColumn implements Comparator<Object> {
 	 * Of course, the getter could exist on any generic object.  The point
 	 * is that it's NOT on the object representing the row, but on some
 	 * sort of container or controller.
+	 * 
+	 * @param _header		Text to display
+	 * @param _name			Callback method name
+	 * @param _object		Object to hit
+	 * @param getterClass	Store the getter method here
+	 * @param getterArgClass	We're looking for a getter for this Class type.
 	 */
 	public TableViewColumn(String _header, String _name, Object _object, Class<?> getterClass, Class<?> getterArgClass) {
 		rowHeader = _header;
@@ -71,6 +81,9 @@ public class TableViewColumn implements Comparator<Object> {
 	 * Note that we might be getting the value directly from the
 	 * object we're iterating over -or- we might be getting the value
 	 * from a method that expects us to pass in the object.
+	 * 
+	 * @param from	The object we're calling data from
+	 * @return The value.
 	 */
 	public Object getValue(Object from) {
 		Object retVal = null;
@@ -110,6 +123,9 @@ public class TableViewColumn implements Comparator<Object> {
 
 	/**
 	 * Try to look up our getter.  If not found, then grab the field.
+	 * 
+	 * @param getterClass Desired return type
+	 * @param getterArgClass If here are arguments.
 	 */
 	private void lookForGetter(Class<?> getterClass, Class<?> getterArgClass) {
 		getter = tryMethod(getterClass, name, getterArgClass);
@@ -124,6 +140,14 @@ public class TableViewColumn implements Comparator<Object> {
 		}
 	}
 
+	/**
+	 * Try calling a getter.
+	 * 
+	 * @param getterClass		Class of object we're working against
+	 * @param methodName		Name of the method
+	 * @param getterArgClass	Return type
+	 * @return The method
+	 */
 	private Method tryMethod(Class<?> getterClass, String methodName, Class<?> getterArgClass) {
 		Method retVal = null;
 		try {
@@ -137,6 +161,13 @@ public class TableViewColumn implements Comparator<Object> {
 		return retVal;
 	}
 
+	/**
+	 * If we can't find getters and setters, we see if we can hit the field directly.
+	 * 
+	 * @param theClass		The class
+	 * @param fieldName		Name of the field
+	 * @return A public field of this name.
+	 */
 	private Field tryField(Class<?> theClass, String fieldName) {
 		Field retVal = null;
 
@@ -152,6 +183,9 @@ public class TableViewColumn implements Comparator<Object> {
 
 	/**
 	 * Compare these two objects.
+	 * 
+	 * @param arg1	First object
+	 * @param arg2	Second object
 	 */
 	@SuppressWarnings("unchecked")
 	public int compare(Object arg1, Object arg2) {
@@ -187,7 +221,12 @@ public class TableViewColumn implements Comparator<Object> {
 		return retVal;
 	}
 
-
+	/**
+	 * Return an int only if obj is a non-null Number
+	 * 
+	 * @param obj An object
+	 * @return 0 on null or non-number
+	 */
 	public int objectToInt(Object obj)
 	{
 		if (obj == null)

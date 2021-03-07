@@ -16,6 +16,9 @@ public class CenterLayout extends BaseLayout {
 	/**
 	 * Constructor.  _xCenter should be the numerator
 	 * in the FormAttachment (0..100).
+	 * 
+	 * @param _control		The widget being placed.
+	 * @param _xCenter		The X-location from 0..100.
 	 */
 	public CenterLayout(Control _control, int _xCenter) {
 		super();
@@ -23,6 +26,9 @@ public class CenterLayout extends BaseLayout {
 		xCenter = _xCenter;
 	}
 
+	/**
+	 * Adjust the location of the controlled widget.
+	 */
 	public void adjust() {
 		Point size = control.getSize();
 		

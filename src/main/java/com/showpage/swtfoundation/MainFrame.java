@@ -40,6 +40,10 @@ public class MainFrame {
 	
 	/**
 	 * Initialize graphics.
+	 * 
+	 * @param _parent			Container.
+	 * @param windowWidth		Initial width.
+	 * @param windowHeight		Initial height.
 	 */
 	public void initialize(Shell _parent, int windowWidth, int windowHeight) {
 		parent = _parent;
@@ -84,6 +88,9 @@ public class MainFrame {
 	
 	/**
 	 * Set our location to a particular (x,y).
+	 * 
+	 * @param x		X-location
+	 * @param y		Y-location
 	 */
 	public void setLocation(int x, int y)
 	{
@@ -93,6 +100,9 @@ public class MainFrame {
 	
 	/**
 	 * Set the location of this window so it's touching another window.
+	 * 
+	 * @param window	What we snap to
+	 * @param direction	Bitmask of: ALIGN_TOP_TO_TOP ALIGN_BOTTOM_TO_BOTTOM ALIGN_TOP_TO_BOTTOM ALIGN_BOTTOM_TO_TOP
 	 */
 	public void snapToWindow(MainFrame window, int direction)
 	{
@@ -220,6 +230,8 @@ public class MainFrame {
 	/**
 	 * Remember a layout group that will need to be adjusted when the
 	 * page is open.
+	 * 
+	 * @param layoutGroup the group
 	 */
 	public void registerBaseLayout(BaseLayout layoutGroup)
 	{
@@ -228,6 +240,9 @@ public class MainFrame {
 	
 	/**
 	 * A safe setter that is reasonable with nulls.
+	 * 
+	 * @param field	The text widget
+	 * @param val What to set it to
 	 */
 	public void setTextField(Text field, String val) {
 		if (val == null) {
@@ -238,6 +253,9 @@ public class MainFrame {
 	
 	/**
 	 * A safe setter that is reasonable with nulls.
+	 * 
+	 * @param field	The Label widget
+	 * @param val What to set it to
 	 */
 	public void setTextField(Label field, String val) {
 		if (val == null) {
@@ -248,6 +266,9 @@ public class MainFrame {
 	
 	/**
 	 * Get the text from a text field, returning null for empty strings.
+	 * 
+	 * @param field The text widget
+	 * @return the text widget's current textual value. Null on an empty string.
 	 */
 	public String getTextField(Text field) {
 		String s = field.getText().trim();
@@ -256,8 +277,11 @@ public class MainFrame {
 		}
 		return s;
 	}
+
 	/**
 	 * Set the text in the statusTF area.
+	 * 
+	 * @param text Value to set
 	 */
 	public void setStatus(String text) {
 		if (statusTF != null) {
@@ -275,7 +299,10 @@ public class MainFrame {
 	}
 	
 	/**
-	 * Center this object.
+	 * Center this object. Great for centering header widgets.
+	 * 
+	 * @param w	Widget to center
+	 * @param location The X-location (0..100) to center on.
 	 */
 	public void centerOn(Control w, int location) {
 		CenterLayout cl = new CenterLayout(w, location);
@@ -284,6 +311,12 @@ public class MainFrame {
 	
 	/**
 	 * Center this object near the bottom of the page.
+	 * 
+	 * @param w			Widget to place.
+	 * @param xCenter	Value from 0..100.
+	 * @param yOffset	Move it up off the bottom by this many pixels
+	 * 
+	 * @return The FormData, which is already applied.
 	 */
 	public FormData centerNearBottom(Control w, int xCenter, int yOffset) {
 		FormData fd = new FormData();
@@ -296,6 +329,12 @@ public class MainFrame {
 	
 	/**
 	 * Center this object near the top of the page.
+	 * 
+	 * @param w			Widget to place.
+	 * @param xCenter	Value from 0..100.
+	 * @param yOffset	Move it down from the top by this many pixels
+	 * 
+	 * @return The FormData, which is already applied.
 	 */
 	public FormData centerNearTop(Control w, int xCenter, int yOffset) {
 		FormData fd = new FormData();
@@ -306,6 +345,15 @@ public class MainFrame {
 		return fd;
 	}
 	
+	/**
+	 * Center this object below another widget.
+	 * 
+	 * @param widgetToCenter	Widget to place.
+	 * @param widgetAbove		Widget we're below
+	 * @param yOffset			Move it down from the widget by this many pixels
+	 * 
+	 * @return The FormData, which is already applied.
+	 */
 	public FormData centerBelow(Control widgetToCenter, Control widgetAbove, int yOffset) {
 		FormData fd = new FormData();
 		fd.left = new FormAttachment(50, 0);
@@ -315,6 +363,11 @@ public class MainFrame {
 		return fd;
 	}
 	
+	/**
+	 * Make this widget fill the entire container with 5 pixels of buffer.
+	 * 
+	 * @param w	The widget to fill us with.
+	 */
 	public void fillPanel(Control w) {
 		FormData fd = new FormData();
 		fd.left = new FormAttachment(0, 5);
@@ -333,6 +386,22 @@ public class MainFrame {
 	 * Used to lay out an entire widget location in a single call.
 	 * For any particular edge, it will be unattached if the edge widget,
 	 * percent and offset are all null/0.
+	 * 
+	 * @param w				The widget.
+	 * @param leftW			Our left control use null to attach to the container.
+	 * @param leftPercent	Use 0 for widget attachment or 0..100 for form attachment.
+	 * @param leftOffset	Pixels
+	 * @param rightW		Our right control. Use null to attach to the container.
+	 * @param rightPercent	Use 0 for widget attachment or 0..100 for form attachment.
+	 * @param rightOffset	Pixels
+	 * @param topW			Our top control. Use null to attach to the container.
+	 * @param topPercent	Use 0 for widget attachment or 0..100 for form attachment.
+	 * @param topOffset		Pixels
+	 * @param bottomW		Our bottom control. Use null to attach to the container.
+	 * @param bottomPercent	Use 0 for widget attachment or 0..100 for form attachment.
+	 * @param bottomOffset	Pixels
+	 * 
+	 * @return The FormData. It's already been applied, so you can ignore if you don't care.
 	 */
 	public FormData layout(Control w,
 			Control leftW, int leftPercent, int leftOffset,
@@ -361,6 +430,12 @@ public class MainFrame {
 	
 	/**
 	 * Quick way to create and fill in a form attachment.
+	 * 
+	 * @param w			Widget to lay out
+	 * @param percent	0..100
+	 * @param offset	And offset in pixels.
+	 * 
+	 * @return The FormData. It's already been applied, so you can ignore if you don't care.
 	 */
 	public FormAttachment formAttachment(Control w, int percent, int offset) {
 		FormAttachment retVal = null;
@@ -375,6 +450,9 @@ public class MainFrame {
 	
 	/**
 	 * Reset the height of a widget by adjusting his form data.
+	 * 
+	 * @param w			The Widget
+	 * @param height	New height
 	 */
 	public void setHeight(Control w, int height) {
 		FormData fd = (FormData)w.getLayoutData();

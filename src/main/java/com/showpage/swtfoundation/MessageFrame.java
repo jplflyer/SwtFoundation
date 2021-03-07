@@ -4,6 +4,9 @@ import org.eclipse.swt.*;
 import org.eclipse.swt.layout.*;
 import org.eclipse.swt.widgets.*;
 
+/**
+ * Creates a popup window with a message.
+ */
 public class MessageFrame extends MainFrame
 {
 	private Label			label;
@@ -11,6 +14,11 @@ public class MessageFrame extends MainFrame
 	
 	/**
 	 * Constructor.
+	 * 
+	 * @param _parent		Can probably use null.
+	 * @param windowWidth	Width.
+	 * @param windowHeight	Height.
+	 * @param text			Text to display.
 	 */
 	public void initialize( Shell _parent, int windowWidth, int windowHeight, String text )
 	{

@@ -12,6 +12,11 @@ public abstract class SWTApplication
 	private static SWTApplication singleton = null;
 	public boolean	backgroundSetupComplete = false;
 	
+	/**
+	 * Our app is always a singleton.
+	 * 
+	 * @param app		The singleton.
+	 */
 	public static void setSingleton(SWTApplication app)
 	{
 		singleton = app;
@@ -19,6 +24,8 @@ public abstract class SWTApplication
 	
 	/**
 	 * Return our singleton.
+	 * 
+	 * @return Our singleton
 	 */
 	public static SWTApplication singleton()
 	{
@@ -27,6 +34,8 @@ public abstract class SWTApplication
 	
 	/**
 	 * Subclasses should override.
+	 * 
+	 * @return Return the application you created.
 	 */
 	public static SWTApplication createApplication()
 	{
@@ -36,6 +45,8 @@ public abstract class SWTApplication
 	
 	/**
 	 * Subclasses should actually implement something.
+	 * 
+	 * @param args Arguments.
 	 */
 	public abstract void run(String[] args);
 	

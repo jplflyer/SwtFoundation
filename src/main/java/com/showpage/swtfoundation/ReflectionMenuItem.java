@@ -12,6 +12,14 @@ public class ReflectionMenuItem extends MenuItem implements SelectionListener {
 	
 	/**
 	 * Basic constructor.
+	 * 
+	 * @param parent		Containing menu
+	 * @param style			SWT.NONE (etc)
+	 * @param label			Text to display
+	 * @param cbObject		Object to call back to
+	 * @param cbName		Method name on the object
+	 * @param cbData		Your specific data
+	 * @param accelerator	Keyboard shortcut.
 	 */
 	public ReflectionMenuItem(Menu parent, int style, String label, Object cbObject, String cbName, Object cbData, int accelerator)
 	{
@@ -31,6 +39,8 @@ public class ReflectionMenuItem extends MenuItem implements SelectionListener {
 
 	/**
 	 * They double-clicked the action.
+	 * 
+	 * @param e	Ignored
 	 */
 	public void widgetDefaultSelected(SelectionEvent e)
 	{
@@ -38,6 +48,8 @@ public class ReflectionMenuItem extends MenuItem implements SelectionListener {
 
 	/**
 	 * They single-clicked.  This is the one we really respond to.
+	 * 
+	 * @param e	Ignored
 	 */
 	public void widgetSelected(SelectionEvent e)
 	{

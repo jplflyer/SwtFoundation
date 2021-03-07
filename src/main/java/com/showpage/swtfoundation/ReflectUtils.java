@@ -3,10 +3,17 @@ package com.showpage.swtfoundation;
 import java.lang.reflect.*;
 import java.util.*;
 
+/**
+ * Utilities to make reflection easier.
+ */
 public class ReflectUtils {
 	
 	/**
 	 * Dump this bean.
+	 * 
+	 * @param obj		Object we'll dump. We call any methods beginning with "get".
+	 * @param filler	A prefix to print.
+	 * @param buffer	Where we're dumping to.
 	 */
 	public static void dumpBean(Object obj, String filler, StringBuffer buffer) {
 		Class<?>		objClass = obj.getClass();
@@ -41,6 +48,10 @@ public class ReflectUtils {
 	
 	/**
 	 * Dump this object.  We've already done the prompt.
+	 * 
+	 * @param val		Object we'll dump. We call any methods beginning with "get".
+	 * @param filler	A prefix to print.
+	 * @param buffer	Where we're dumping to.
 	 */
 	public static void dumpObject(Object val, String filler, StringBuffer buffer) {
 		if (val == null) {
@@ -74,6 +85,10 @@ public class ReflectUtils {
 	
 	/**
 	 * Dump this list's elements.
+	 * 
+	 * @param list		List to dump
+	 * @param filler	A prefix
+	 * @param buffer	The output buffer
 	 */
 	public static void dumpList(java.util.List<?> list, String filler, StringBuffer buffer) {
 		int index = 0;
@@ -95,6 +110,12 @@ public class ReflectUtils {
 	 * take an argument.  If cbData is null, we'll take the
 	 * first method of the proper name that takes either 0 or 1
 	 * arguments -- thus assuming that a null argument is legal.
+	 * 
+	 * @param callbackObject	Object in question
+	 * @param callbackName		Method name
+	 * @param cbData			User data
+	 * 
+	 * @return The method to invoke.
 	 */
 	public static Method findCallback(Object callbackObject, String callbackName, Object cbData)
 	{

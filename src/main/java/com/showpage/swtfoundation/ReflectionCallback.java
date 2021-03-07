@@ -16,6 +16,10 @@ public class ReflectionCallback
 
 	/**
 	 * Constructor.
+	 * 
+	 * @param cbObject	The object.
+	 * @param cbName	Method name -- object.method().
+	 * @param cbData	User data (may be null).
 	 */
 	public ReflectionCallback(Object cbObject, String cbName, Object cbData)
 	{

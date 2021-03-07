@@ -5,6 +5,12 @@ import java.lang.reflect.*;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.widgets.*;
 
+/**
+ * This class lets you use reflection to set up bidirectionly setting of
+ * a value from your object to a Text or Combo widget. At initialization,
+ * the Text/Combo will have its value set from your object's value. If the
+ * user makes changes, the setter will be called inside your object.
+ */
 public class BoundText implements ModifyListener {
 	public Text			text;
 	public Combo		combo;
@@ -14,9 +20,12 @@ public class BoundText implements ModifyListener {
 
 	/**
 	 * Constructor.
+	 * 
+	 * @param widget		This should be a Text or Combo widget.
+	 * @param _object		Your object
+	 * @param methodName	The field name. We assume set[MethodName] and get[MethodName] exist.
 	 */
 	public BoundText(Control widget, Object _object, String methodName) {
-		System.out.printf("new BoundText for %s\n", methodName);
 		if (widget instanceof Text) {
 			text = (Text)widget;
 		}
@@ -51,6 +60,11 @@ public class BoundText implements ModifyListener {
 		}
 	}
 	
+	/**
+	 * Queries the widget to get the current value.
+	 * 
+	 * @return The current value from the widget.
+	 */
 	public String getText() {
 		String retVal = null;
 		
@@ -63,6 +77,11 @@ public class BoundText implements ModifyListener {
 		return retVal;
 	}
 	
+	/**
+	 * Set your widget's value.
+	 * 
+	 * @param val Value to set
+	 */
 	public void setText(String val) {
 		if (val == null) {
 			val = "";
@@ -78,6 +97,8 @@ public class BoundText implements ModifyListener {
 
 	/**
 	 * Our text was modified.
+	 * 
+	 * @param event Ignored, but required in the callback.
 	 */
 	public void modifyText(ModifyEvent event) {
 		if (setter != null) {

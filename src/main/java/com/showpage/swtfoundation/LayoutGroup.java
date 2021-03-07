@@ -38,6 +38,10 @@ public class LayoutGroup extends BaseLayout implements PaintListener
 	
 	/**
 	 * Constructor.
+	 * 
+	 * @param _leftAttachment	Location for the group
+	 * @param _rightAttachment	Location for the group
+	 * @param _topAttachment	Location for the group
 	 */
 	public LayoutGroup(FormAttachment _leftAttachment, FormAttachment _rightAttachment, FormAttachment _topAttachment)
 	{
@@ -48,6 +52,12 @@ public class LayoutGroup extends BaseLayout implements PaintListener
 	
 	/**
 	 * Add a Label / Control pair.
+	 * 
+	 * @param label	The label (on the left)
+	 * @param control The control (widget on the right)
+	 * @param controlBottomAttachment IF you want to attach this widget to the bottom, else null.
+	 * 
+	 * @return The FormData.
 	 */
 	public FormData addPair(Control label, Control control, FormAttachment controlBottomAttachment)
 	{
@@ -80,7 +90,12 @@ public class LayoutGroup extends BaseLayout implements PaintListener
 	}
 	
 	/**
-	 * Add a triplet.
+	 * Add a triplet, a label plus two widgets.
+	 * 
+	 * @param label The label on the left
+	 * @param control1	We do a normal pair with the label and this control
+	 * @param control2	This control is set to the right of control1.
+	 * @param controlBottomAttachment	For bottom attachments.
 	 */
 	public void addTriplet(Control label, Control control1, Control control2, FormAttachment controlBottomAttachment)
 	{
@@ -147,6 +162,8 @@ public class LayoutGroup extends BaseLayout implements PaintListener
 	
 	/**
 	 * Our first label has been painted.  We have an opportunity to adjust.
+	 * 
+	 * @param e Ignored. Required as part of the callback
 	 */
 	public void paintControl(PaintEvent e)
 	{
@@ -156,6 +173,11 @@ public class LayoutGroup extends BaseLayout implements PaintListener
 		}
 	}
 	
+	/**
+	 * Forget this widget.
+	 * 
+	 * @param label This is the label that corresponds to what we're removing.
+	 */
 	public void removePair(Control label) {
 		for (int index = 0; index < labels.size(); ++index) {
 			if (labels.get(index) == label) {
@@ -165,6 +187,11 @@ public class LayoutGroup extends BaseLayout implements PaintListener
 		}
 	}
 	
+	/**
+	 * Remove from this index.
+	 * 
+	 * @param index Which one.
+	 */
 	private void removeAt(int index) {
 		Control label = labels.get(index);
 		Control control = controls.get(index);
