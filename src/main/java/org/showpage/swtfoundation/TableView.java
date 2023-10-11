@@ -1,4 +1,4 @@
-package com.showpage.swtfoundation;
+package org.showpage.swtfoundation;
 
 import java.lang.reflect.*;
 import java.util.*;

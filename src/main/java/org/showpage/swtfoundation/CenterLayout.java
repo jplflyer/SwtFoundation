@@ -1,4 +1,4 @@
-package com.showpage.swtfoundation;
+package org.showpage.swtfoundation;
 
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.layout.*;

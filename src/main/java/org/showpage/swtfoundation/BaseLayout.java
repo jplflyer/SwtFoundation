@@ -1,4 +1,4 @@
-package com.showpage.swtfoundation;
+package org.showpage.swtfoundation;
 
 /**
  * BaseLayout provides our base class for cool layout tricks we use.

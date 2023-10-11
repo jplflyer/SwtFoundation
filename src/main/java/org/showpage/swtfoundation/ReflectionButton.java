@@ -1,34 +1,29 @@
-package com.showpage.swtfoundation;
+package org.showpage.swtfoundation;
 
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.widgets.*;
 
 /**
- * ReflectionMenuItem uses reflection to implement a callback when
- * the menu item is selected.
+ * This is a pushbutton that uses reflection with a callback.
  */
-public class ReflectionMenuItem extends MenuItem implements SelectionListener {
-	private ReflectionCallback	callback = null;
+public class ReflectionButton extends Button implements SelectionListener
+{
+	private ReflectionCallback callback = null;
 	
 	/**
-	 * Basic constructor.
+	 * Constructor.
 	 * 
-	 * @param parent		Containing menu
+	 * @param parent		Container.
 	 * @param style			SWT.NONE (etc)
 	 * @param label			Text to display
-	 * @param cbObject		Object to call back to
-	 * @param cbName		Method name on the object
-	 * @param cbData		Your specific data
-	 * @param accelerator	Keyboard shortcut.
+	 * @param cbObject		Callback object.
+	 * @param cbName		Callback method name.
+	 * @param cbData		Any user data to pass.
 	 */
-	public ReflectionMenuItem(Menu parent, int style, String label, Object cbObject, String cbName, Object cbData, int accelerator)
+	public ReflectionButton(Composite parent, int style, String label, Object cbObject, String cbName, Object cbData)
 	{
 		super(parent, style);
 		setText(label);
-		if (accelerator != 0)
-		{
-			setAccelerator(accelerator);
-		}
 		this.addSelectionListener(this);
 		
 		if (cbObject != null)
@@ -36,11 +31,11 @@ public class ReflectionMenuItem extends MenuItem implements SelectionListener {
 			callback = new ReflectionCallback(cbObject, cbName, cbData);
 		}
 	}
-
+	
 	/**
 	 * They double-clicked the action.
 	 * 
-	 * @param e	Ignored
+	 * @param e		Ignored.
 	 */
 	public void widgetDefaultSelected(SelectionEvent e)
 	{
@@ -49,7 +44,7 @@ public class ReflectionMenuItem extends MenuItem implements SelectionListener {
 	/**
 	 * They single-clicked.  This is the one we really respond to.
 	 * 
-	 * @param e	Ignored
+	 * @param e		Ignored.
 	 */
 	public void widgetSelected(SelectionEvent e)
 	{

@@ -1,4 +1,4 @@
-package com.showpage.swtfoundation;
+package org.showpage.swtfoundation;
 
 /**
  * Base class for all SWT Applications.  This is NOT a GUI
